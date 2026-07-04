@@ -12,9 +12,10 @@ COPY . .
 
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-RUN mkdir -p database && touch database/database.sqlite \
-    && chown -R www-data:www-data /var/www/html \
-    && chmod -R 775 storage bootstrap/cache database
+RUN mkdir -p database storage/logs storage/framework/{cache,sessions,views} && \
+    touch database/database.sqlite && \
+    chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database && \
+    chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database
 RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
 RUN echo '<Directory /var/www/html/public>\n\
     AllowOverride All\n\
