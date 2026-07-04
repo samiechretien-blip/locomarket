@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function Login() {
@@ -40,8 +40,8 @@ export default function Login() {
       />
       <button type="submit">Se connecter</button>
       <p>
-  Pas encore de compte ? <a href="/register">S'inscrire</a>
-</p>
+        Pas encore de compte ? <Link to="/register">S'inscrire</Link>
+      </p>
     </form>
   );
 }
