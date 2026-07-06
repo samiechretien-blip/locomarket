@@ -12,30 +12,36 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        User::create([
-            'name' => 'Admin LocoMarket',
-            'email' => 'admin@locomarket.test',
-            'password' => Hash::make('password'),
-            'role' => 'admin',
-        ]);
+        User::firstOrCreate(
+            ['email' => 'admin@locomarket.test'],
+            [
+                'name' => 'Admin LocoMarket',
+                'password' => Hash::make('password'),
+                'role' => 'admin',
+            ]
+        );
 
-        $legumes = Category::create(['name' => 'Légumes', 'slug' => 'legumes']);
-        $boulangerie = Category::create(['name' => 'Boulangerie', 'slug' => 'boulangerie']);
+        $legumes = Category::firstOrCreate(['slug' => 'legumes'], ['name' => 'Légumes']);
+        $boulangerie = Category::firstOrCreate(['slug' => 'boulangerie'], ['name' => 'Boulangerie']);
 
-        Product::create([
-            'category_id' => $legumes->id,
-            'name' => 'Tomates anciennes (1kg)',
-            'description' => 'Tomates du producteur local, récoltées le matin même.',
-            'price' => 3.90,
-            'stock' => 40,
-        ]);
+        Product::firstOrCreate(
+            ['name' => 'Tomates anciennes (1kg)'],
+            [
+                'category_id' => $legumes->id,
+                'description' => 'Tomates du producteur local, récoltées le matin même.',
+                'price' => 3.90,
+                'stock' => 40,
+            ]
+        );
 
-        Product::create([
-            'category_id' => $boulangerie->id,
-            'name' => 'Pain de campagne',
-            'description' => 'Pain au levain, cuit au feu de bois.',
-            'price' => 4.50,
-            'stock' => 20,
-        ]);
+        Product::firstOrCreate(
+            ['name' => 'Pain de campagne'],
+            [
+                'category_id' => $boulangerie->id,
+                'description' => 'Pain au levain, cuit au feu de bois.',
+                'price' => 4.50,
+                'stock' => 20,
+            ]
+        );
     }
 }
