@@ -31,12 +31,21 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/products/{product}', [ProductController::class, 'destroy']);
     });
 });
-// ROUTE TEMPORAIRE - à supprimer après usage
 Route::delete('/temp-cleanup/{product}', function (\App\Models\Product $product, \Illuminate\Http\Request $request) {
     if ($request->query('key') !== 'nettoyage2026') {
         abort(403);
     }
-    $product->items()->delete(); // supprime les order_items liés
+    $product->orderItems()->delete();
     $product->delete();
     return response()->json(['message' => 'Produit et ses commandes associées supprimés.']);
+});
+
+Route::delete('/temp-reset-catalogue', function (\Illuminate\Http\Request $request) {
+    if ($request->query('key') !== 'nettoyage2026') {
+        abort(403);
+    }
+    \App\Models\OrderItem::query()->delete();
+    \App\Models\Order::query()->delete();
+    \App\Models\Product::query()->delete();
+    return response()->json(['message' => 'Catalogue et commandes remis à zéro.']);
 });
