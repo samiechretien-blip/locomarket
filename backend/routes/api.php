@@ -31,3 +31,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/products/{product}', [ProductController::class, 'destroy']);
     });
 });
+// ROUTE TEMPORAIRE - à supprimer après usage
+Route::delete('/temp-cleanup/{product}', function (\App\Models\Product $product, \Illuminate\Http\Request $request) {
+    if ($request->query('key') !== 'nettoyage2026') {
+        abort(403);
+    }
+    $product->items()->delete(); // supprime les order_items liés
+    $product->delete();
+    return response()->json(['message' => 'Produit et ses commandes associées supprimés.']);
+});

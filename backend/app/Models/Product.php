@@ -32,4 +32,8 @@ class Product extends Model
 
         return Storage::disk('public')->url($this->image_url);
     }
+    public function orderItems()
+{
+    return $this->hasMany(OrderItem::class);
+}
 }
